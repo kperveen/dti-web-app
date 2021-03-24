@@ -1,15 +1,15 @@
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from .models import Target, Indication, Model, Compound, Therapeutic
+from drugs.models import Indication, Therapeutic
 import pickle
 from padelpy import from_smiles
 import pandas as pd
 from django.contrib import messages
 from django.conf import settings
-from django.core.mail import send_mail, EmailMessage
+from django.core.mail import EmailMessage
 import dataframe_image as dfi
-
+import tensorflow as tf
+from tensorflow import keras
 
 def index(request):
     indication_list = []
@@ -53,9 +53,19 @@ def index(request):
         df = df.drop('index', axis=1)
         df = df.astype('str').astype('int')
         dictionary = dict()
+        print("Df is complete")
+        print(len(df))
+        import os
+
+        path = "/Users/kausar/Documents/practicum-app/dti_web_app/"
+        dict_mlc = dict()
+        print(df)
         for i in some_var:
+            print("inside for loop")
             if i == 'EGFR':
-                with open('Static/Models/Binary/CHEMBL_203/rf.pkl', 'rb') as file:
+                xpath = os.path.join(path, 'Static/Models/Binary/CHEMBL_203/rf.pkl')
+                #with open('../Static/Models/Binary/CHEMBL_203/rf.pkl', 'rb') as file:
+                with open(xpath, 'rb') as file:
                     print("in the section")
                     pickle_model = pickle.load(file)
                 prob = pickle_model.predict_proba(df)
@@ -63,19 +73,27 @@ def index(request):
                 # print(prob[:, 1])
                 # print(pickle_model.predict(df))
             elif i == 'IGF1R':
-                with open('Static/Models/Binary/CHEMBL_1957/rf.pkl', 'rb') as file:
+                xpath = os.path.join(path, 'Static/Models/Binary/CHEMBL_1957/rf.pkl')
+                #with open('../Static/Models/Binary/CHEMBL_1957/rf.pkl', 'rb') as file:
+                with open(xpath, 'rb') as file:
                     print("in the section")
                     pickle_model = pickle.load(file)
                 prob = pickle_model.predict_proba(df)
+                print(prob)
+                print(list(prob[:, 1]))
                 dictionary['IGF1R'] = list(prob[:, 1])
             elif i == 'MIA-PaCa':
-                with open('Static/Models/Binary/CHEMBL_614725/rf.pkl', 'rb') as file:
+                xpath = os.path.join(path, 'Static/Models/Binary/CHEMBL_614725/rf.pkl')
+                #with open('../Static/Models/Binary/CHEMBL_614725/rf.pkl', 'rb') as file:
+                with open(xpath, 'rb') as file:
                     print("in the section")
                     pickle_model = pickle.load(file)
                 prob = pickle_model.predict_proba(df)
                 dictionary['MIA-PaCa'] = list(prob[:, 1])
             else:
-                with open('Static/Models/Binary/CHEMBL_2842/rf.pkl', 'rb') as file:
+                xpath = os.path.join(path, 'Static/Models/Binary/CHEMBL_2842/rf.pkl')
+                with open(xpath, 'rb') as file:
+                # with open('../Static/Models/Binary/CHEMBL_2842/rf.pkl', 'rb') as file:
                     print("in the section")
                     pickle_model = pickle.load(file)
                 prob = pickle_model.predict_proba(df)
@@ -83,16 +101,46 @@ def index(request):
         gd = pd.DataFrame(dictionary, index=file_data.head(5)['canonical_smiles'].values)
         gd = gd.rename_axis(index='Compounds', columns='Targets')
 
-        # print(gd)
+        print(gd)
+
+        xpath = os.path.join(path, 'Static/Models/MLC/mlc_model.h5')
+        mlc_model = keras.models.load_model(xpath)
+        prob = mlc_model.predict_proba(df)
+
+        for j in some_var:
+            print("Inside for somevar ", j)
+            if j == 'EGFR':
+                dict_mlc['EGFR'] = list(prob[:, 3])
+            elif j == 'IGF1R':
+                dict_mlc['IGF1R'] = list(prob[:, 1])
+            elif j == 'MIA-PaCa':
+                dict_mlc['MIA-PaCa'] = list(prob[:, 0])
+            elif j == 'mTOR':
+                dict_mlc['mTOR'] = list(prob[:, 2])
+
+
+        gd_mlc = pd.DataFrame(dict_mlc, index=file_data.head(5)['canonical_smiles'].values)
+        gd_mlc = gd_mlc.rename_axis(index='Compounds', columns='Targets')
+
+        print(gd_mlc)
         df_styled = gd.style.applymap(color_)
         df_styled = df_styled.set_caption("\nResults with Binary Classification")
         dfi.export(df_styled, 'table.png')
+
+        # Code for Multilabel Classification
+
+        df_styled_mlc = gd_mlc.style.applymap(color_)
+        df_styled_mlc = df_styled_mlc.set_caption("\nResults with Multi-label Classification")
+        dfi.export(df_styled_mlc, 'table_mlc.png')
+
+
         subject = 'welcome to GFG world'
         message = 'Hi thank you for registering in geeksforgeeks.'
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [email, ]
         mail = EmailMessage(subject, message, email_from, recipient_list)
         mail.attach_file('table.png')
+        mail.attach_file('table_mlc.png')
         mail.send()
 
     # template = loader.get_template('drugs/ayus.html')

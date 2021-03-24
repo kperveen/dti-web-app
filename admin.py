@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Target, Indication, Model, Compound, Therapeutic
+from drugs.models import Target, Indication, Model, Compound, Therapeutic
 admin.site.register(Target)
 admin.site.register(Therapeutic)
 admin.site.register(Indication)
