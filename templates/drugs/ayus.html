@@ -30,60 +30,8 @@
             <h1 class="title_name">Drogue Cibler</h1>
         </div>
     </div>
-
-
     <form method="post" class="fom" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="form-check form-check-inline">
-  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="EGFR" name="checks">
-  <label class="form-check-label" for="inlineCheckbox1">EGFR</label>
-</div>
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="IGF1R" name="checks">
-  <label class="form-check-label" for="inlineCheckbox2">IGF1R</label>
-</div>
-    <div class="form-check form-check-inline">
-  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="MIA-PaCa" name="checks">
-  <label class="form-check-label" for="inlineCheckbox2">MIA-PaCa</label>
-</div>
-    <div class="form-check form-check-inline">
-  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="mTOR" name="checks">
-  <label class="form-check-label" for="inlineCheckbox2">mTOR</label>
-</div>
-    <br>
-    <br>
-{#        <div class="form-floating">#}
-{#          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="targett">#}
-{#                {% if targets_list %}#}
-{#                    {% if flagg == 0 %}#}
-{#                        <option selected>Select a Target</option>#}
-{#                    {% endif %}#}
-{#                    {% for target in targets_list %}#}
-{#                        <option value="{{ target }}">{{ target }}</option>#}
-{#                    {% endfor %}#}
-{#                {% else %}#}
-{#                    <p>No Targets are available.</p>#}
-{#                {% endif %}#}
-{#          </select>#}
-{#          <label for="floatingSelect">Targets</label>#}
-{#        </div><br>#}
-
-        <div class="form-floating">
-          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="indication">
-                {% if indication_list %}
-                    {% if flagg == 0 %}
-                        <option selected>Select a Indication</option>
-                    {% endif %}
-                    {% for indication in indication_list %}
-                        <option value="{{ indication }}">{{ indication}}</option>
-                    {% endfor %}
-                {% else %}
-                <p>No Indications are available.</p>
-            {% endif %}
-          </select>
-          <label for="floatingSelect">Indication</label>
-        </div><br>
-
         <div class="form-floating">
           <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="therapeutic" required>
                 {% if model_list %}
@@ -99,14 +47,49 @@
           </select>
           <label for="floatingSelect">Therapeutic Area</label>
         </div><br>
-        <div class="form-group">
-            <input type="email" name="emaill" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="indication">
+                {% if indication_list %}
+                    {% if flagg == 0 %}
+                        <option selected>Select a Indication</option>
+                    {% endif %}
+                    {% for indication in indication_list %}
+                        <option value="{{ indication }}">{{ indication}}</option>
+                    {% endfor %}
+                {% else %}
+                <p>No Indications are available.</p>
+            {% endif %}
+          </select>
+          <label for="floatingSelect">Indication</label>
+        </div><br>
+        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+        
+        <div class="row">
+            <div class="col-lg-12">
+              <label class="text-white">Select Targets</label>              
+            <select class="selectpicker w-100" multiple data-live-search="true" name="checks">
+                    <option>EGFR</option>
+                    <option>IGF1R</option>
+                    <option>MIA-PaCa-2</option>
+                    <option>mTOR</option>
+            </select>
+        </div></div>
+        <a href="download_file" download="example_input_file.csv" class="text-white" style=font-size:12px> <u> Download Example </u> </a>   
+        <br><br>
+        <div class="form-check form-check-inline">            
+           <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="emaill">
+           <label class="form-check-label" for="inlineCheckbox2" style="color:white;font-size:17.5px;">Send Results via Email</label>
         </div>
         <br>
-        <div class="form-group">
+        <br>
+        <div class="form-group" for="inlineCheckbox2" style="color:white;font: size 13px;">
             <input type="file" name="uploadedFile" class="form-control-file" id="exampleFormControlFile1" required>
         </div>
-        <br>
         <button type="submit" class="btn btn-primary">Predict</button>
     </form>
     <h2></h2>
@@ -122,10 +105,10 @@
             <h2 class="myteam">FROM THE CREATORS</h2>
         </div>
         <div class="photos">
-            <p class="aboutsecc">"Drug discovery and development pipeline is a resource intensive and time-consuming.
-                We developed a discovery pipeline that can identify promising targets early by analyzing
-                methodologies of literature-base target identification. Identified targets for Pancreatic Cancer
-                using literature mining and prioritize them through additional features."
+            <p class="aboutsecc">"In order to ensure rapid drug development, this project is useful in identifying the 
+                potential drug compounds for pancreatic cancer which can be classified as active/inactive for given four 
+                targets after knowing their probability. A higher probability above 80 indicates an active compound where 
+                as a lower probability below 20 indicates an inactive compound."
             </p>
             <div class="photomain">
                 <div class="photosec1">
@@ -163,7 +146,9 @@
                 </div>
                 <div class="photosec4">
                     <div class="picturesec">
-                        <div class="photo4"></div>
+                        <div class="photo3">
+                            <img src="/drugs/Static/Pictures/yin_.jpg">
+                        </div>
                     </div>
                     <div class="namesec">
                         <h6 class="nam">YIN YANG</h6>
