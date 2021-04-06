@@ -1,7 +1,6 @@
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from .models import Target, Indication, Model, Compound, Therapeutic
+from drugs.models  import Target, Indication, Model, Compound, Therapeutic
 import pickle
 from padelpy import from_smiles
 import pandas as pd
@@ -9,8 +8,23 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail, EmailMessage
 import dataframe_image as dfi
+import tensorflow as tf
+from tensorflow import keras
 import mimetypes
 import os
+
+import rdkit
+from rdkit import Chem
+
+from IPython.display import Image
+
+from rdkit.Chem import AllChem as Chem
+
+import time
+
+import pubchempy as pcp
+
+import numpy as np
 
 def download_file(request):
     # fill these variables with real values
@@ -48,31 +62,56 @@ def index(request):
         email = request.POST.get('emaill')
         # print(email)
         # print(some_var)
-        # print(email)
-        # print(some_var)
         if not csv_file.name.endswith('.csv'):
             messages.error(request, 'File is not csv type')
         else:
             file_data = pd.read_csv(csv_file, index_col=0)
-        indi_ind = indication_list.index(indi)
-        modl_ind = therapeutic_list.index(therepu)
-        indication_list[0], indication_list[indi_ind] = indication_list[indi_ind], indication_list[0]
-        therapeutic_list[0], therapeutic_list[modl_ind] = therapeutic_list[modl_ind], therapeutic_list[0]
-        df = pd.DataFrame()
+        # indi_ind = indication_list.index(indi)
+        # modl_ind = therapeutic_list.index(therepu)
+        print(indi)
+        print(therepu)
+        # indication_list[0], indication_list[indi_ind] = indication_list[indi_ind], indication_list[0]
+        # therapeutic_list[0], therapeutic_list[modl_ind] = therapeutic_list[modl_ind], therapeutic_list[0]
+
+
+        # df = pd.DataFrame()
+        start = time.time()
+        cols = [f'PubchemFP{i}' for i in range(881)]
+        df = pd.DataFrame(columns=cols)
+        index = 0
         for i in file_data.head(5)['canonical_smiles']:
-            fingerprints = from_smiles(i, fingerprints=True, descriptors=False)
-            if df.empty:
-                df = pd.DataFrame.from_records([fingerprints])
-            else:
-                fd = pd.DataFrame.from_records([fingerprints])
-                df = df.append(fd)
+            c_list = pcp.get_compounds(i, 'smiles')
+            fp = c_list[0].cactvs_fingerprint
+            fp_arr = np.fromstring(fp, 'u1') - ord('0')
+            df.loc[index] = fp_arr
+            index += 1
+        end = time.time()
+        print('elapsed time ', end - start)
+            # fingerprints = from_smiles(i, fingerprints=True, descriptors=False)
+            # mol1 = Chem.MolFromSmiles(i)
+            # print(mol1)
+            # if df.empty:
+            #     df = pd.DataFrame.from_records([fingerprints])
+            # else:
+            #     fd = pd.DataFrame.from_records([fingerprints])
+            #     df = df.append(fd)
         df = df.reset_index()
         df = df.drop('index', axis=1)
         df = df.astype('str').astype('int')
         dictionary = dict()
+        #print("Df is complete")
+        #print(len(df))
+        import os
+
+        path = "/Users/kausar/Documents/practicum-app/dti_web_app/"
+        dict_mlc = dict()
+        #print(df)
         for i in some_var:
+            #print("inside for loop")
             if i == 'EGFR':
-                with open('Static/Models/Binary/CHEMBL_203/rf.pkl', 'rb') as file:
+                xpath = os.path.join(path, 'Static/Models/Binary/CHEMBL_203/rf.pkl')
+                #with open('../Static/Models/Binary/CHEMBL_203/rf.pkl', 'rb') as file:
+                with open(xpath, 'rb') as file:
                     print("in the section")
                     pickle_model = pickle.load(file)
                 prob = pickle_model.predict_proba(df)
@@ -80,19 +119,27 @@ def index(request):
                 # print(prob[:, 1])
                 # print(pickle_model.predict(df))
             elif i == 'IGF1R':
-                with open('Static/Models/Binary/CHEMBL_1957/rf.pkl', 'rb') as file:
+                xpath = os.path.join(path, 'Static/Models/Binary/CHEMBL_1957/rf.pkl')
+                #with open('../Static/Models/Binary/CHEMBL_1957/rf.pkl', 'rb') as file:
+                with open(xpath, 'rb') as file:
                     print("in the section")
                     pickle_model = pickle.load(file)
                 prob = pickle_model.predict_proba(df)
+                #print(prob)
+                #print(list(prob[:, 1]))
                 dictionary['IGF1R'] = list(prob[:, 1])
             elif i == 'MIA-PaCa-2':
-                with open('Static/Models/Binary/CHEMBL_614725/rf.pkl', 'rb') as file:
-                    print("in the section")
+                xpath = os.path.join(path, 'Static/Models/Binary/CHEMBL_614725/rf.pkl')
+                #with open('../Static/Models/Binary/CHEMBL_614725/rf.pkl', 'rb') as file:
+                with open(xpath, 'rb') as file:
+                    #print("in the section")
                     pickle_model = pickle.load(file)
                 prob = pickle_model.predict_proba(df)
-                dictionary['MIA-PaCa-2'] = list(prob[:, 1])
+                dictionary['MIA-PaCa'] = list(prob[:, 1])
             else:
-                with open('Static/Models/Binary/CHEMBL_2842/rf.pkl', 'rb') as file:
+                xpath = os.path.join(path, 'Static/Models/Binary/CHEMBL_2842/rf.pkl')
+                with open(xpath, 'rb') as file:
+                # with open('../Static/Models/Binary/CHEMBL_2842/rf.pkl', 'rb') as file:
                     print("in the section")
                     pickle_model = pickle.load(file)
                 prob = pickle_model.predict_proba(df)
@@ -101,16 +148,49 @@ def index(request):
         gd = gd.rename_axis(index='Compounds', columns='Targets')
 
         # print(gd)
+
+        xpath = os.path.join(path, 'Static/Models/MLC/mlc_model_r.h5')
+        mlc_model = keras.models.load_model(xpath)
+        prob = mlc_model.predict_proba(df)
+
+        for j in some_var:
+            print("Inside for somevar ", j)
+            if j == 'EGFR':
+                dict_mlc['EGFR'] = list(prob[:, 3])
+            elif j == 'IGF1R':
+                dict_mlc['IGF1R'] = list(prob[:, 1])
+            elif j == 'MIA-PaCa-2':
+                dict_mlc['MIA-PaCa'] = list(prob[:, 0])
+            elif j == 'mTOR':
+                dict_mlc['mTOR'] = list(prob[:, 2])
+
+
+        gd_mlc = pd.DataFrame(dict_mlc, index=file_data.head(5)['canonical_smiles'].values)
+        gd_mlc = gd_mlc.rename_axis(index='Compounds', columns='Targets')
+
+        gd.to_csv("prob_binary.csv")
+        gd_mlc.to_csv("prob_mlc.csv")
+
+        # print(gd_mlc)
         df_styled = gd.style.applymap(color_)
         df_styled = df_styled.set_caption("\nResults with Binary Classification")
         dfi.export(df_styled, 'table.png')
-        subject = 'welcome to GFG world'
-        message = 'Hi thank you for registering in geeksforgeeks.'
-        email_from = settings.EMAIL_HOST_USER
-        recipient_list = [email, ]
-        mail = EmailMessage(subject, message, email_from, recipient_list)
-        mail.attach_file('table.png')
-        mail.send()
+
+        # Code for Multilabel Classification
+
+        df_styled_mlc = gd_mlc.style.applymap(color_)
+        df_styled_mlc = df_styled_mlc.set_caption("\nResults with Multi-label Classification")
+        dfi.export(df_styled_mlc, 'table_mlc.png')
+
+
+        # subject = 'welcome to GFG world'
+        # message = 'Hi thank you for registering in geeksforgeeks.'
+        # email_from = settings.EMAIL_HOST_USER
+        # recipient_list = [email, ]
+        # mail = EmailMessage(subject, message, email_from, recipient_list)
+        # mail.attach_file('table.png')
+        # mail.attach_file('table_mlc.png')
+        # mail.send()
 
     # template = loader.get_template('drugs/ayus.html')
     # context = {'targets_list': target_list,

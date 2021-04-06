@@ -2,7 +2,7 @@ html, body{
     height: 100%;
     background: url('/drugs/Static/Pictures/dna.jpg') no-repeat center rgba(0, 0, 0, 0.25);
     background-size: cover;
-    overflow: hidden;
+    overflow: scroll;
 }
 
 body::before {
@@ -251,6 +251,27 @@ body::before {
 .aboutus{
     font-family: 'Big Shoulders Stencil Text', cursive;
     color: whitesmoke;
+    width: 9rem !important;
+    background-color: #086c92;
+    border-radius: 0.3rem;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.aboutus:hover {
+    background-color: #0e80ab;
+    color: #ffffff;
+    text-decoration: None;
+}
+
+.aboutus  a {
+    color: white !important;
+    text-decoration: None !important;
+}
+
+h3 a {
+    color: #ffffff;
+    text-decoration: None;
 }
 
 .nam{
@@ -259,7 +280,7 @@ body::before {
 
 .aboutsecc{
     padding-top: 3%;
-    text-align: center;
+    /*text-align: center;*/
     font-family: 'Farsan', cursive;
     font-size: 16pt;
     color: darksalmon;
@@ -274,12 +295,147 @@ body::before {
     color: white;
 }
 
+.c-text {
+    color: #086c92;
+}
+
+.c-cards {
+    line-height: 3.3rem;
+}
+
+.c-card-p {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+
 
 a,
 a label {
     cursor: pointer;
 }
 
+.accordion-button:not(.collapsed) {
+        color: #ffffff !important;
+        background-color: #086c92 !important;
+}
+
+.accordion-button:focus {
+    border-color: #0e6c91;
+        /*box-shadow: 0 0 0 0.25rem rgb(14 108 145);*/
+}
+
+.r-main {
+    height: 3.2rem;
+    background-color: white;
+    border-radius: 0.4rem;
+}
+
+.r-heading {
+    color: #086c92;
+    width: 83%;
+    font-size: 1rem;
+    vertical-align: middle;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.w-90 {
+    width: 90%;
+}
+
+.choose-file {
+    color:white;
+    font-size: 1rem;
+}
+
+.download-example {
+    font-size:0.9rem;
+    padding-top: 0.3rem;
+}
+
+.main-bcolor {
+    background-color: #086c92 !important;
+}
+
+.w-color {
+    color: white !important;
+}
+
+.btn-predict:hover {
+    background-color: #0e80ab !important;
+    color: white;
+}
+
+.accordion-button:not(.collapsed) {
+    color: #ffffff !important;
+    background-color: #086c92 !important;
+}
+
+.accordion-button:focus {
+    border-color: #0e6c91;
+    /*box-shadow: 0 0 0 0.25rem rgb(14 108 145);*/
+}
+
+.r-main {
+    height: 3.2rem;
+    background-color: white;
+    border-radius: 0.4rem;
+}
+
+.r-heading {
+    color: #086c92;
+    width: 83%;
+    font-size: 1rem;
+    vertical-align: middle;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.main-bcolor {
+    background-color: #086c92 !important;
+}
+
+.white-color {
+    color: #ffffff !important;
+}
+
+.a-comp {
+    background: #086c92;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 5px;
+    padding-bottom: 15px;
+}
+
+.a-comp-head {
+    width: 95%;
+    background-color: white
+}
+
+.w-95 {
+    width: 95%;
+}
+
+.f1 {
+    font-size: 1rem !important;
+}
+
+.b-white {
+    background-color: #ffffff !important;
+}
+
+.f1-2 {
+    font-size: 1.2rem !important;
+}
+
+.w-85 {
+    width: 85% !important;
+}
+
+.ab-sim::after {
+    margin-left: 0.5rem !important;
+}
 
 
 
