@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ''
+SECRET_KEY = '2@v$fyqv10xmb+@@*%0($12cg21$uu5jteiidwoklqj@k@@+bk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -32,14 +36,17 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'drugs.apps.DrugsConfig',
+    # 'user.apps.UserConfig'
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'after_response',
+    'crispy_forms',
 ]
-
+# CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -51,6 +58,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'WebApp.urls'
+SESSION_COOKIE_AGE = 40 * 60
 
 TEMPLATES = [
     {
@@ -78,7 +86,7 @@ WSGI_APPLICATION = 'WebApp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'ayush.sqlite3',
     }
 }
 
@@ -126,7 +134,12 @@ STATICFILES_DIRS = [
     '/Static/',
 ]
 
+LOGIN_REDIRECT_URL = 'dashboard'
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
+EMAIL_HOST_USER = 'ayushd64@gmail.com'
+EMAIL_HOST_PASSWORD = 'ozmvzgcaohjotthu'
+DEFAULT_FROM_EMAIL = 'Drug Target Team <noreply@dti.com'

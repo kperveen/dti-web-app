@@ -23,11 +23,14 @@ from rdkit.Chem import Draw
 from rdkit.Chem.Fingerprints import FingerprintMols
 from rdkit import DataStructs
 
+from django.contrib.auth.decorators import login_required
+
 import time
 
 import matplotlib
 matplotlib.use('Agg')
 
+@login_required(login_url='login')
 def index(request):
     if request.method == 'POST':
         print("Get request is called")
