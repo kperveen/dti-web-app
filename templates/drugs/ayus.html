@@ -4,9 +4,11 @@
 
 {% block content %}
 <div class="main">
-    <form method="post" class="fom" enctype="multipart/form-data">
+
+    <form method="post" class="fom mx-auto mt-5" enctype="multipart/form-data">
+        <h5 class="w-75 mx-auto white-color"> Predict active/inactive compounds</h5>
         {% csrf_token %}
-        <div class="form-floating mb-4">
+        <div class="form-floating mb-4 mt-5">
             <select class="form-select" id="ta" aria-label="Floating label select example" name="therapeutic">
                 <option value="">Select a Therapeutic Area</option>
             </select>
@@ -41,7 +43,7 @@
             </a>
         </div>
 
-        <button type="submit" class="btn main-bcolor w-color w-100 btn-predict">Predict</button>
+        <button type="submit" class="btn w-color w-100 btn-predict" style="background-color: #ff6103">Predict</button>
     </form>
 </div>
 <script>

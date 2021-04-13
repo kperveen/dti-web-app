@@ -3,19 +3,19 @@
 
 {% block content %}
 
-<div class="w-50 mx-auto r-main">
-    <h3 class="my-auto mx-auto r-heading">
+<div class="w-50 mx-auto r-main mt-4">
+    <h3 class="my-auto mx-auto r-heading w-50" style="color: black !important;">
         Active/Inactive and Similar Compounds</h3>
 </div>
 
 
 <div class="accordion open accordion-flush mx-auto mt-5 w-90" id="accordionFlushExample">
   <div class="accordion-item mt-3">
-    <h2 class="accordion-header main-bcolor" id="flush-headingTwo">
-          <button class="accordion-button collapsed white-color ab-sim" type="button" data-bs-toggle="collapse"
+    <h2 class="accordion-header white-bcolor" id="flush-headingTwo">
+          <button class="accordion-button collapsed black ab-sim" type="button" data-bs-toggle="collapse"
                   data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
             Active/Inactive Compounds
-              <span class="ml-auto"> Active > 75% </span>
+              <span class="ml-auto orange"> Active > 75% </span>
           </button>
 
     </h2>
@@ -33,7 +33,7 @@
             </div>
 
             {% for key, values in prob.items %}
-            <div class="card mx-auto mt-2 w-95">
+            <div class="card mx-auto mt-2">
             <div class="card-body row">
                 <div class="col-md-7 c-text"> {{key}} </div>
                   <div class="col-md-5 row ">
@@ -60,8 +60,8 @@
   </div>
 
   <div class="accordion-item mt-3">
-    <h2 class="accordion-header main-bcolor" id="flush-headingThree">
-      <button class="accordion-button collapsed white-color" type="button" data-bs-toggle="collapse"
+    <h2 class="accordion-header white-bcolor" id="flush-headingThree">
+      <button class="accordion-button collapsed black" type="button" data-bs-toggle="collapse"
               data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
         Similar Compounds
       </button>
@@ -73,8 +73,8 @@
             <div class="accordion" id="accordionSim">
                 {% for key, values in similar.items %}
           <div class="accordion-item b-white">
-            <h2 class="accordion-header mx-auto main-bcolor" id="headingOne">
-              <button class="accordion-button mx-auto white-color" type="button" data-bs-toggle="collapse"
+            <h2 class="accordion-header mx-auto white-bcolor" id="headingOne">
+              <button class="accordion-button mx-auto black" type="button" data-bs-toggle="collapse"
                       data-bs-target="#collapse-sim-{{forloop.counter}}" aria-expanded="true" aria-controls="collapse-sim-{{forloop.counter}}"
                         >
                 Compounds Similar to {{key}}

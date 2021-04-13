@@ -1,8 +1,8 @@
 html, body{
     height: 100%;
-    background: url('/drugs/Static/Pictures/dna.jpg') no-repeat center rgba(0, 0, 0, 0.25);
+    /*background: url('/drugs/Static/Pictures/dna.jpg') no-repeat center rgba(0, 0, 0, 0.25);*/
     background-size: cover;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 body::before {
@@ -314,17 +314,17 @@ body::before {
     float: right;
 }
 
-.first{
-    width: 75%;
-    background-color: white;
-    height: 50px;
-    margin-left: 12.5%;
-    padding-left: 2%;
-    padding-right: 2%;
-    display:flex;
-    align-items: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
+/*.first{*/
+/*    width: 75%;*/
+/*    background-color: white;*/
+/*    height: 50px;*/
+/*    margin-left: 12.5%;*/
+/*    padding-left: 2%;*/
+/*    padding-right: 2%;*/
+/*    display:flex;*/
+/*    align-items: center;*/
+/*    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+/*}*/
 .namm{
     background: linear-gradient(330deg, #e05252 0%, #99e052 25%, #52e0e0 50%, #9952e0 75%, #e05252 100%);
     color: transparent;

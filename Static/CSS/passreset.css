@@ -1,15 +1,11 @@
 body {
     height: 100%;
     margin: 0;
-    background: rgb(238,174,202);
-    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-color: #00688b !important;
 }
 
 .rp{
     width: 30%;
-    height: 40%;
     background-color: white;
     position: absolute;
     top: 50%;
@@ -39,4 +35,14 @@ body {
 .btn-dark{
     width: 100%;
     margin-top: 5%;
+}
+
+.send-email {
+    background-color: #ff6103 !important;
+    color: white !important;
+    width: 100%;
+}
+
+.send-email:hover {
+    background-color: #dd501c !important;
 }

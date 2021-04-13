@@ -1,8 +1,9 @@
 html, body{
     height: 100%;
-    background: url('/drugs/Static/Pictures/dna.jpg') no-repeat center rgba(0, 0, 0, 0.25);
-    background-size: cover;
-    overflow: scroll;
+    /*background: url('/drugs/Static/Pictures/dna.jpg') no-repeat center rgba(0, 0, 0, 0.25);*/
+    /*background-size: cover;*/
+    background-color: #00688b !important;
+    overflow-y: auto;
 }
 
 body::before {
@@ -22,11 +23,11 @@ body::before {
     width: 40%;
     height: inherit;
     padding: 5%;
-    float: left;
+    /*float: left;*/
 }
 .title_name{
     color: #086c92;
-    font-family: 'Ranchers', cursive;
+    /*font-family: 'Ranchers', cursive;*/
     font-size: 75pt;
     width: 100%;
     text-align: right;
@@ -104,7 +105,7 @@ body::before {
 }
 .myteam{
     color:  #4285F4;
-    font-family: 'Alatsi', sans-serif;
+    /*font-family: 'Alatsi', sans-serif;*/
 }
 
 .photos{
@@ -249,7 +250,7 @@ body::before {
 }
 
 .aboutus{
-    font-family: 'Big Shoulders Stencil Text', cursive;
+    /*font-family: 'Big Shoulders Stencil Text', cursive;*/
     color: whitesmoke;
     width: 9rem !important;
     background-color: #086c92;
@@ -259,7 +260,7 @@ body::before {
 }
 
 .aboutus:hover {
-    background-color: #0e80ab;
+    background-color: #cd3700;
     color: #ffffff;
     text-decoration: None;
 }
@@ -275,28 +276,24 @@ h3 a {
 }
 
 .nam{
-    font-family: 'Nova Square', cursive;
+    /*font-family: 'Nova Square', cursive;*/
 }
 
 .aboutsecc{
     padding-top: 3%;
     /*text-align: center;*/
-    font-family: 'Farsan', cursive;
+    /*font-family: 'Farsan', cursive;*/
     font-size: 16pt;
     color: darksalmon;
 }
 
 
-.namcode{
-    font-family: 'Libre Barcode 128', cursive;
-    color: #4285F4;
-}
 .form-check-label{
     color: white;
 }
 
 .c-text {
-    color: #086c92;
+    color: black;
 }
 
 .c-cards {
@@ -316,8 +313,8 @@ a label {
 }
 
 .accordion-button:not(.collapsed) {
-        color: #ffffff !important;
-        background-color: #086c92 !important;
+        color: black !important;
+        background-color: white !important;
 }
 
 .accordion-button:focus {
@@ -363,13 +360,8 @@ a label {
 }
 
 .btn-predict:hover {
-    background-color: #0e80ab !important;
+    background-color: #cd3700 !important;
     color: white;
-}
-
-.accordion-button:not(.collapsed) {
-    color: #ffffff !important;
-    background-color: #086c92 !important;
 }
 
 .accordion-button:focus {
@@ -401,7 +393,7 @@ a label {
 }
 
 .a-comp {
-    background: #086c92;
+    /*background: #086c92;*/
     margin-left: auto;
     margin-right: auto;
     padding-top: 5px;
@@ -409,7 +401,7 @@ a label {
 }
 
 .a-comp-head {
-    width: 95%;
+    /*width: 95%;*/
     background-color: white
 }
 
@@ -435,41 +427,6 @@ a label {
 
 .ab-sim::after {
     margin-left: 0.5rem !important;
-}
-
-html, body{
-    height: 100%;
-    background: url('/drugs/Static/Pictures/dna.jpg') no-repeat center rgba(0, 0, 0, 0.25);
-    background-size: cover;
-    overflow: hidden;
-}
-
-body::before {
-    content: "";
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    background-color: rgba(0, 0, 0, 0.25);
-}
-* {
-    margin: 0;
-    padding: 0;
-}
-
-.fom{
-    width: 40%;
-    height: inherit;
-    padding: 5%;
-    float: left;
-}
-.title_name{
-    color: #086c92;
-    font-family: 'Ranchers', cursive;
-    font-size: 75pt;
-    width: 100%;
-    text-align: right;
-    padding-right: 3%;
 }
 
 .result_main{
@@ -542,7 +499,7 @@ body::before {
 }
 .myteam{
     color:  #4285F4;
-    font-family: 'Alatsi', sans-serif;
+    /*font-family: 'Alatsi', sans-serif;*/
 }
 
 .photos{
@@ -687,7 +644,7 @@ body::before {
 }
 
 .nam{
-    font-family: 'Nova Square', cursive;
+    /*font-family: 'Nova Square', cursive;*/
     padding-right: 5%;
     padding-top: 1%;
 }
@@ -701,7 +658,7 @@ body::before {
 }
 .aboutsecc{
     text-align: center;
-    font-family: 'Farsan', cursive;
+    /*font-family: 'Farsan', cursive;*/
     font-size: 14pt;
     color: darksalmon;
     padding-top: 1%;
@@ -709,10 +666,11 @@ body::before {
 
 
 .namcode{
-    /*font-family: 'Libre Barcode 128', cursive;*/
-    font-family: 'Libre Barcode 39 Text', cursive;
-    color: #4285F4;
+    font-family: 'Libre Barcode 128', cursive;
+    /*font-family: 'Libre Barcode 39 Text', cursive;*/
+    color: white;
     padding-right: 5%;
+    width: 11rem !important;
 }
 .form-check-label{
     color: white;
@@ -727,7 +685,7 @@ body::before {
     /*color: #086c92;*/
     padding-top: 25%;
     font-style: italic;
-    font-family: 'Big Shoulders Stencil Text', cursive;
+    /*font-family: 'Big Shoulders Stencil Text', cursive;*/
     color: whitesmoke;
 }
 
@@ -736,7 +694,7 @@ body::before {
 }
 
 .faq{
-    font-family: 'Big Shoulders Stencil Text', cursive;
+    /*font-family: 'Big Shoulders Stencil Text', cursive;*/
     /*color: black;*/
     background: linear-gradient(to right, red, orange 50%, brown);
     color: transparent;
@@ -746,10 +704,11 @@ body::before {
 }
 
 .first{
-    width: 75%;
+    width: 95%;
+    height: 6rem !important;
     background-color: white;
     height: 50px;
-    margin-left: 12.5%;
+    /*margin-left: 12.5%;*/
     padding-left: 2%;
     padding-right: 2%;
     display:flex;
@@ -761,10 +720,10 @@ body::before {
     color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
-    font-family: 'Big Shoulders Stencil Text', cursive;
+    /*font-family: 'Big Shoulders Stencil Text', cursive;*/
 }
 .lou{
-    font-family: 'Big Shoulders Stencil Text', cursive;
+    /*font-family: 'Big Shoulders Stencil Text', cursive;*/
     background-image: linear-gradient(to right, red, orange 50%, brown);
     color: transparent;
     -webkit-background-clip: text;
@@ -797,12 +756,28 @@ a label {
 
 
 #headbut{
-    color: #e05252;
+    color: #ff6103;
     /*background: linear-gradient(to right, red, orange 50%, brown);;*/
     background-color: transparent;
     border: transparent;
-    font-family: 'Big Shoulders Stencil Text', cursive;
-    font-size: 13pt;
+    /*font-family: 'Big Shoulders Stencil Text', cursive;*/
+    font-size: 1.2rem;
+}
+
+.main-b-orange {
+    background-color: #ff6103;
+}
+
+.orange {
+    color: #ff6103;
+}
+
+.white-bcolor {
+    background-color: white;
+}
+
+.black {
+    color: black !important;
 }
 
 
