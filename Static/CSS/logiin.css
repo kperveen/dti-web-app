@@ -10,7 +10,7 @@ body {
 .man{
     background-color: white;
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
@@ -88,7 +88,7 @@ a {
     width: 29%;
     background-color: white;
     position: absolute;
-    top: 78%;
+    top: 65%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;

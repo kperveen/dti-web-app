@@ -30,6 +30,6 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='drugs/password_reset_complete.html'), name='password_reset_complete'),
     path('results/', results.index, name="results"),
     path('about/', about.index, name="about"),
-    path('download_file', dview.download_file, name='download_file'),
+    path('download_file/', dview.download_file, name='download_file'),
     path('faq/', faq.index, name='faq')
 ]

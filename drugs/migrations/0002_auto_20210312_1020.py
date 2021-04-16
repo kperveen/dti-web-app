@@ -26,4 +26,8 @@ class Migration(migrations.Migration):
             old_name='Targets',
             new_name='Target',
         ),
+        migrations.RenameModel(
+            old_name='Images',
+            new_name='Image',
+        ),
     ]
