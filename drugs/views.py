@@ -4,7 +4,7 @@ from django.utils import asyncio
 
 #from drugs.models import Indications, Therapeutic_areas
 import pickle
-from padelpy import from_smiles
+#from padelpy import from_smiles
 import pandas as pd
 from django.contrib import messages
 from django.conf import settings
