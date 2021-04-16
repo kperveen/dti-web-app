@@ -29,6 +29,7 @@
 
     <link href='http://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.1/bootstrap-icons.svg" type="text/css">
 </head>
 
 <body>
@@ -69,8 +70,14 @@
             </div>
             <div class="break"></div>
 
+            <div class="btn-group" role="group" aria-label="Third group">
+                <a id='headbut' type="button" class="btn btn-primary shadow-none"
+                        data-target=".bd-example-modal-lg" href="{% url 'manual' %}">USER MANUAL</a>
+            </div>
+            <div class="break"></div>
 
-            <div class="nme mt-1" style="margin-left: 30rem !important; font-size: 1.2rem !important;">
+
+            <div class="nme mt-1" style="margin-left: 20rem !important; font-size: 1.2rem !important;">
                 <h4 class="namm" style="color: black !important;">Hi, {{ user.first_name }}</h4>
             </div>
             <div class="btn-group" role="group" aria-label="Third group">

@@ -1,23 +1,9 @@
 from django.urls import path
 from drugs import views as dview
-from drugs import results, about, faq
+from drugs import results, about, faq, manual
 
 from user import views as uview
 from django.contrib.auth import views as auth_views
-#
-# from .views import index, download_file
-#
-#
-#
-#
-# urlpatterns = [path('', views.index, name='index')]
-#
-# urlpatterns += [
-#
-# ]
-#
-
-
 
 urlpatterns = [
     path('', dview.dashboard, name='dashboard'),
@@ -31,5 +17,6 @@ urlpatterns = [
     path('results/', results.index, name="results"),
     path('about/', about.index, name="about"),
     path('download_file/', dview.download_file, name='download_file'),
-    path('faq/', faq.index, name='faq')
+    path('faq/', faq.index, name='faq'),
+    path('manual/', manual.index, name='manual')
 ]
