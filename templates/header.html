@@ -60,8 +60,17 @@
 
             <div class="btn-group" role="group" aria-label="Third group">
                 <a id='headbut' type="button" class="btn btn-primary shadow-none"
-                        data-target=".bd-example-modal-lg" href="{% url 'results' %}">RESULTS</a>
+                        data-target=".bd-example-modal-lg" href="{% url 'results' %}">RESULTS
+                    {% if request.session.results %}
+                        <span class="badge badge-danger">1</span>
+                    {% endif %}
+                </a>
             </div>
+{#            {% if not request.session.user_token %}#}
+{#                <a href="/login{% comment %}?next={{ request.path }}{% endcomment %}" class="login">Login</a>#}
+{#            {% else %}#}
+{#                <a href="/logout/" class="login">Logout</a>#}
+{#            {% endif %}#}
             <div class="break"></div>
 
             <div class="btn-group" role="group" aria-label="Third group">

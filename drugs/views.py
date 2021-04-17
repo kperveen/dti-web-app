@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
 from django.utils import asyncio
+from django.http import HttpResponseRedirect
 
 #from drugs.models import Indications, Therapeutic_areas
 import pickle
@@ -52,12 +53,10 @@ def dashboard(request):
     global flag
     flag = 0
     drug_dict = dict()
-    # theraput_list = Therapeutic_areas.objects.all().order_by('area_name').values_list('area_name', flat=True)
-    # for i in theraput_list:
-    #     indicat_list = list(Indications.objects.filter(therapeutic_area__area_name=i).values_list('indication_name', flat=True))
-    #     drug_dict[i] = indicat_list
 
     if request.method == 'POST':
+        request.session['results'] = False
+
         flag = 1
         global label, pred_prob
         global email
@@ -69,11 +68,6 @@ def dashboard(request):
         csv_file = request.FILES['uploadedFile']
         some_var = request.POST.getlist('checks')
 
-        print("email is ", email)
-
-        print(indi)
-        print(therepu)
-        # email = request.POST.get('emaill')
         if not csv_file.name.endswith('.csv'):
             messages.error(request, 'File is not csv type')
         else:
@@ -83,21 +77,34 @@ def dashboard(request):
         ml_model.after_response(file_data, some_var, email, request)
 
 
-        template = loader.get_template('drugs/ayus.html')
+        template = loader.get_template('drugs/index.html')
         # context = {'indication_list': indication_list,
         #            'model_list': therapeutic_list,
         #            'flagg': flag,
         #            'emailll': email}
         context = {'flagg': flag,
                    'emailll': email}
-        return HttpResponse(template.render(context, request))
+        return redirect('dashboard')
 
-    else:
-        template = loader.get_template('drugs/ayus.html')
-        context = {'drug_dictionary': drug_dict,
-                   'flagg': flag}
-        return HttpResponse(template.render(context, request))
+    user_id = request.user.id
+    similarities = Similar.objects.filter(user_id=user_id, type='query')
+
+    results = Prediction.objects.filter(user_id=user_id)
+    print(len(similarities))
+    print(len(results))
+    if len(similarities) > 0 or len(results) > 0:
+        print("Setting session variable")
+        request.session['results'] = True
+
+    elif len(similarities) == 0 or len(results) == 0:
+        print("Setting session variable")
+        request.session['results'] = False
+    template = loader.get_template('drugs/index.html')
+    context = {'drug_dictionary': drug_dict,
+               'flagg': flag}
+    return HttpResponse(template.render(context, request))
 # Create your views here.
+
 
 
 @after_response.enable
@@ -326,6 +333,13 @@ def calculate_similarities(gd, gd_mlc, request):
     new_results.save()
     end = time.time()
     print('elapsed time ', end - start)
+    print("Setting session variable")
+    request.session['results'] = True
+    request.session.save()
+
+    # template = loader.get_template('drugs/index.html')
+    # context = {}
+    # return HttpResponse(template.render(context, request))
 
 
 def download_file(request):
@@ -338,9 +352,8 @@ def download_file(request):
     #fl = open(current_path, 'r')
     fl = open(os.path.join(current_path, filename))
     mime_type, _ = mimetypes.guess_type(current_path)
-    response = HttpResponse(fl, content_type=mime_type)
-    response['Content-Disposition'] = "attachment; filename=%s" % filename
-    return response
+    # response = HttpResponse(fl, content_type=mime_type)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def color_(val):
