@@ -361,21 +361,6 @@ def calculate_similarities(gd, gd_mlc, request, sr):
     # context = {}
     # return HttpResponse(template.render(context, request))
 
-
-def download_file(request):
-    # fill these variables with real values
-    current_path = os.path.dirname(__file__)
-    filename = 'example_input.csv'
-    #fl = os.path.join(current_path, filename)
-    #fl_path = 'drugs/'
-
-    #fl = open(current_path, 'r')
-    fl = open(os.path.join(current_path, filename))
-    mime_type, _ = mimetypes.guess_type(current_path)
-    # response = HttpResponse(fl, content_type=mime_type)
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-
 def color_(val):
     if val >= 0.0 and val < 30:
         color = 'red'
