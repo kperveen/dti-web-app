@@ -5,7 +5,7 @@
 {% block content %}
 <div class="main">
 
-    <form method="post" class="fom mx-auto mt-5" enctype="multipart/form-data">
+    <form method="post" class="fom mx-auto mt-5" enctype="multipart/form-data" id="c-form">
         <h5 class="w-75 mx-auto white-color"> Predict active/inactive compounds</h5>
         {% csrf_token %}
         <div class="form-floating mb-4 mt-5">
@@ -43,11 +43,34 @@
             </a>
         </div>
 
-        <button type="submit" class="btn w-color w-100 btn-predict" style="background-color: #ff6103">
+        <button type="button" class="btn w-color w-100 btn-predict"
+                data-toggle="modal" data-target="#confirm-submit"
+                style="background-color: #ff6103">
             Predict
         </button>
 
     </form>
+
+    <div class="modal fade" id="confirm-submit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Predictions are in works
+                </div>
+                <div class="modal-body">
+                    We have it from here, our models are predicting the status for the compounds you selected.
+                    You will get an email once the predictions are done and you can comeback on the webapp to see
+                    the results and find out similar compounds.
+
+                </div>
+
+                <div class="modal-footer">
+                    <button id = "submit" type="button" class="btn btn-predict white-color"
+                            style="background-color: #ff6103" data-dismiss="modal">Sure.</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     var diseases = {
@@ -99,6 +122,10 @@
   });
 });
 
+
+    $('#submit').click(function(){
+        $('#c-form').submit();
+    });
 
 
 </script>

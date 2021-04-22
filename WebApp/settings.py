@@ -58,7 +58,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'WebApp.urls'
-SESSION_COOKIE_AGE = 40 * 60
+SESSION_COOKIE_AGE = 400 * 60
 
 TEMPLATES = [
     {
@@ -143,3 +143,4 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'ayushd64@gmail.com'
 EMAIL_HOST_PASSWORD = 'ozmvzgcaohjotthu'
 DEFAULT_FROM_EMAIL = 'Drug Target Team <noreply@dti.com'
+SESSION_SAVE_EVERY_REQUEST = True

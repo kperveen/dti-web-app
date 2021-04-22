@@ -48,14 +48,40 @@ import matplotlib
 matplotlib.use('Agg')
 
 
+
 @login_required(login_url='login')
 def dashboard(request):
     global flag
+    global set_res
+    set_res = True
     flag = 0
+
     drug_dict = dict()
+
+
+    if request.method == 'GET':
+        print('set res is ', set_res)
+        user_id = request.user.id
+        similarities = Similar.objects.filter(user_id=user_id, type='query')
+
+        results = Prediction.objects.filter(user_id=user_id)
+
+        if 'set_res' in request.session:
+            if (len(similarities) > 0 or len(results) > 0) and request.session['set_res'] == True:
+                request.session['results'] = True
+
+            elif len(similarities) == 0 or len(results) == 0:
+                request.session['results'] = False
+        else:
+            if len(similarities) > 0 or len(results) > 0:
+                request.session['results'] = True
+
+            elif len(similarities) == 0 or len(results) == 0:
+                request.session['results'] = False
 
     if request.method == 'POST':
         request.session['results'] = False
+        request.session.modified = True
 
         flag = 1
         global label, pred_prob
@@ -74,7 +100,7 @@ def dashboard(request):
             file_data = pd.read_csv(csv_file, index_col=0)
 #        df = pd.DataFrame()
 
-        ml_model.after_response(file_data, some_var, email, request)
+        ml_model.after_response(file_data, some_var, email, request, set_res)
 
 
         template = loader.get_template('drugs/index.html')
@@ -84,21 +110,10 @@ def dashboard(request):
         #            'emailll': email}
         context = {'flagg': flag,
                    'emailll': email}
+        request.session['set_res'] = False
         return redirect('dashboard')
 
-    user_id = request.user.id
-    similarities = Similar.objects.filter(user_id=user_id, type='query')
 
-    results = Prediction.objects.filter(user_id=user_id)
-    print(len(similarities))
-    print(len(results))
-    if len(similarities) > 0 or len(results) > 0:
-        print("Setting session variable")
-        request.session['results'] = True
-
-    elif len(similarities) == 0 or len(results) == 0:
-        print("Setting session variable")
-        request.session['results'] = False
     template = loader.get_template('drugs/index.html')
     context = {'drug_dictionary': drug_dict,
                'flagg': flag}
@@ -108,8 +123,9 @@ def dashboard(request):
 
 
 @after_response.enable
-def ml_model(file_data, some_var, email, request):
+def ml_model(file_data, some_var, email, request, set_res):
     warnings.filterwarnings(action="ignore")
+    # request.session.calc = True
     print("In ASYNC Func....")
     start = time.time()
     cols = [f'PubchemFP{i}' for i in range(881)]
@@ -212,12 +228,12 @@ def ml_model(file_data, some_var, email, request):
     recipient_list = [email, ]
     mail = EmailMessage(subject, message, email_from, recipient_list)
     mail.attach_file('table1.png')
-    # mail.send()
+    mail.send()
     print("------------------COMPLETED!--------------------")
     print("user id in views.py", request.user.id)
-    calculate_similarities(gd, gd_mlc, request)
+    calculate_similarities(gd, gd_mlc, request, set_res)
 
-def calculate_similarities(gd, gd_mlc, request):
+def calculate_similarities(gd, gd_mlc, request, sr):
     user_id = request.user.id
     print("user id of current user is ", user_id)
     instances = Similar.objects.filter(user_id=user_id)
@@ -333,9 +349,13 @@ def calculate_similarities(gd, gd_mlc, request):
     new_results.save()
     end = time.time()
     print('elapsed time ', end - start)
-    print("Setting session variable")
+
     request.session['results'] = True
     request.session.save()
+
+    request.session['set_res'] = True
+    request.session.modified = True
+    return redirect('dashboard')
 
     # template = loader.get_template('drugs/index.html')
     # context = {}
