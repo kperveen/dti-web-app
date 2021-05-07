@@ -13,7 +13,7 @@ to create a virtual environment for rdkit using the following commands:
 * In the above command, the name of environment created is `dti-rdkit-env`
 
 ### 2. Clone the repository:
-
+ **Skip this step by directly download the file from DSW dashboard**
 Clone this repository to a local folder of your choice on your local system using git clone https://github.com/kperveen/dti-web-app.git
 
 
